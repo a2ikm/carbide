@@ -1,5 +1,5 @@
 require "carbide/version"
+require "carbide/action"
 
 module Carbide
-  # Your code goes here...
 end
