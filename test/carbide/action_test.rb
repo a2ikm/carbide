@@ -1,10 +1,6 @@
 require "test_helper"
 
 class CarbideActionTest < Minitest::Test
-  class TestContext
-    attr_accessor :value
-  end
-
   def test_execute_block_within_context
     context = TestContext.new
 
