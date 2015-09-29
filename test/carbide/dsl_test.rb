@@ -63,4 +63,21 @@ class CarbideDSLTest < Minitest::Test
     task.execute
     assert_equal [42, 43], carbided.value
   end
+
+  def test_invoke_executes_task
+    carbided = Class.new(TestCarbided) do
+      def define_tasks
+        task :task_name do |arg|
+          self.value = arg
+        end
+      end
+
+      def run
+        invoke(:task_name, 42)
+      end
+    end.new
+
+    carbided.run
+    assert_equal 42, carbided.value
+  end
 end

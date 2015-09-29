@@ -1,5 +1,12 @@
 module Carbide
   module DSL
+    def invoke(name, *args)
+      task = carbide_manager[name]
+      if task
+        task.execute(*args)
+      end
+    end
+
     def task(name, &block)
       name = name.to_sym
       task = carbide_manager[name]
