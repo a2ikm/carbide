@@ -33,6 +33,14 @@ module Carbide
       self
     end
 
+    def invoke_pre_tasks(*args)
+      pre_tasks.each do |pre_task|
+        task = manager[pre_task]
+        task.invoke(*args)
+      end
+      self
+    end
+
     def clear_actions
       actions.clear
       self
