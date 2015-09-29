@@ -1,16 +1,22 @@
 module Carbide
   class Task
-    attr_reader :name, :actions
+    attr_reader :name, :actions, :pre_tasks
 
     def initialize(name)
-      @name    = name.to_sym
-      @actions = []
+      @name      = name.to_sym
+      @actions   = []
+      @pre_tasks = []
     end
 
     alias to_sym name
 
     def enhance(action)
       actions << action
+      self
+    end
+
+    def prepend(tasks)
+      @pre_tasks |= Array(tasks)
       self
     end
 

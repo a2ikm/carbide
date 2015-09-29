@@ -74,4 +74,23 @@ class CarbideTaskTest < Minitest::Test
 
     assert_equal [], task.actions
   end
+
+  def test_prepend_adds_pre_tasks
+    task = Carbide::Task.new(:task_name)
+    task1 = Carbide::Task.new(:task_name1)
+    task2 = Carbide::Task.new(:task_name2)
+
+    task.prepend([task1, task2])
+    assert_equal [task1, task2], task.pre_tasks
+  end
+
+  def test_prepend_dont_add_duplicated_pre_tasks
+    task = Carbide::Task.new(:task_name)
+    task1 = Carbide::Task.new(:task_name1)
+    task2 = Carbide::Task.new(:task_name2)
+
+    task.prepend(task1)
+    task.prepend([task2, task1])
+    assert_equal [task1, task2], task.pre_tasks
+  end
 end
