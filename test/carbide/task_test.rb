@@ -6,6 +6,18 @@ class CarbideTaskTest < Minitest::Test
     assert_equal :task_name, task.name
   end
 
+  def test_tasks_with_same_name_are_equal
+    task_a = Carbide::Task.new(:task_name)
+    task_b = Carbide::Task.new(:task_name)
+    assert task_a == task_b
+  end
+
+  def test_tasks_with_different_names_are_not_equal
+    task_a = Carbide::Task.new(:task_name)
+    task_b = Carbide::Task.new(:other_task_name)
+    assert task_a != task_b
+  end
+
   def test_enhance_adds_action_to_actions
     task = Carbide::Task.new(:task_name)
     context = TestContext.new

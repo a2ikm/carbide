@@ -10,6 +10,11 @@ module Carbide
 
     alias to_sym name
 
+    def ==(other)
+      self.class === other &&
+        name == other.name
+    end
+
     def enhance(action)
       actions << action
       self
