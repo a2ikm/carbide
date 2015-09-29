@@ -1,12 +1,13 @@
 module Carbide
   class Task
-    attr_reader :manager, :name, :actions, :pre_tasks
+    attr_reader :manager, :name, :actions, :pre_tasks, :post_tasks
 
     def initialize(manager, name)
-      @manager   = manager
-      @name      = name.to_sym
-      @actions   = []
-      @pre_tasks = []
+      @manager    = manager
+      @name       = name.to_sym
+      @actions    = []
+      @pre_tasks  = []
+      @post_tasks = []
     end
 
     alias to_sym name
@@ -23,6 +24,11 @@ module Carbide
 
     def prepend(tasks)
       @pre_tasks |= Array(tasks).map(&:name)
+      self
+    end
+
+    def append(tasks)
+      @post_tasks |= Array(tasks).map(&:name)
       self
     end
 

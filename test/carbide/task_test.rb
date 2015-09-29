@@ -115,6 +115,27 @@ class CarbideTaskTest < Minitest::Test
     assert_equal [:task_name1, :task_name2], task.pre_tasks
   end
 
+  def test_append_adds_post_tasks
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
+    task1 = Carbide::Task.new(manager, :task_name1)
+    task2 = Carbide::Task.new(manager, :task_name2)
+
+    task.append([task1, task2])
+    assert_equal [:task_name1, :task_name2], task.post_tasks
+  end
+
+  def test_append_dont_add_duplicated_post_tasks
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
+    task1 = Carbide::Task.new(manager, :task_name1)
+    task2 = Carbide::Task.new(manager, :task_name2)
+
+    task.append(task1)
+    task.append([task2, task1])
+    assert_equal [:task_name1, :task_name2], task.post_tasks
+  end
+
   def test_invoke_pre_tasks
     manager = Carbide::Manager.new
     context = TestContext.new([])
