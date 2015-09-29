@@ -13,5 +13,12 @@ module Carbide
       actions << action
       self
     end
+
+    def execute(*args)
+      actions.each do |action|
+        action.execute(*args)
+      end
+      self
+    end
   end
 end
