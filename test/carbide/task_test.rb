@@ -55,4 +55,23 @@ class CarbideTaskTest < Minitest::Test
 
     assert_equal [42, 43], context.value
   end
+
+  def test_clear_actions
+    task = Carbide::Task.new(:task_name)
+    context = TestContext.new([])
+
+    action1 = Carbide::Action.new(context) do |arg|
+      self.value << arg
+    end
+    task.enhance(action1)
+
+    action2 = Carbide::Action.new(context) do |arg|
+      self.value << arg + 1
+    end
+    task.enhance(action2)
+
+    task.clear_actions
+
+    assert_equal [], task.actions
+  end
 end

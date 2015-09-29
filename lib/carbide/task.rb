@@ -20,5 +20,10 @@ module Carbide
       end
       self
     end
+
+    def clear_actions
+      actions.clear
+      self
+    end
   end
 end
