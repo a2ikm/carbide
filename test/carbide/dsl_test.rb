@@ -19,6 +19,22 @@ class TestCarbided
 end
 
 class CarbideDSLTest < Minitest::Test
+  def test_task_verifies_carbide_manager_is_available
+    klass = Class.new(TestCarbided) do
+      def define_tasks
+        task :task_name
+      end
+
+      def carbide_manager
+        nil
+      end
+    end
+
+    assert_raises Carbide::ManagerUnavailable do
+      klass.new
+    end
+  end
+
   def test_task_defines_task_without_action
     carbided = Class.new(TestCarbided) do
       def define_tasks
