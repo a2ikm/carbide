@@ -47,6 +47,14 @@ module Carbide
       self
     end
 
+    def invoke_post_tasks(*args)
+      post_tasks.each do |post_task|
+        task = manager[post_task]
+        task.invoke(*args)
+      end
+      self
+    end
+
     def clear_actions
       actions.clear
       self

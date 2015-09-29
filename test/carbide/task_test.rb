@@ -157,4 +157,26 @@ class CarbideTaskTest < Minitest::Test
     task.invoke_pre_tasks
     assert_equal [42, 43], context.value
   end
+
+  def test_invoke_post_tasks
+    manager = Carbide::Manager.new
+    context = TestContext.new([])
+
+    task = Carbide::Task.new(manager, :task_name)
+    manager.register(task)
+    action = Carbide::Action.new(context) do
+      self.value << 43
+    end
+
+    task1 = Carbide::Task.new(manager, :task_name1)
+    manager.register(task1)
+    action1 = Carbide::Action.new(context) do
+      self.value << 42
+    end
+    task1.enhance(action1)
+
+    task.append(task1)
+    task.invoke_post_tasks
+    assert_equal [43, 42], context.value
+  end
 end
