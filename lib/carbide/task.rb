@@ -39,6 +39,13 @@ module Carbide
       self
     end
 
+    def invoke(*args)
+      invoke_pre_tasks(*args)
+      execute(*args)
+      invoke_post_tasks(*args)
+      self
+    end
+
     def invoke_pre_tasks(*args)
       pre_tasks.each do |pre_task|
         task = manager[pre_task]

@@ -136,47 +136,34 @@ class CarbideTaskTest < Minitest::Test
     assert_equal [:task_name1, :task_name2], task.post_tasks
   end
 
-  def test_invoke_pre_tasks
+  def test_invoke
     manager = Carbide::Manager.new
     context = TestContext.new([])
 
     task = Carbide::Task.new(manager, :task_name)
     manager.register(task)
     action = Carbide::Action.new(context) do
-      self.value << 43
+      self.value << :main
     end
+    task.enhance(action)
 
     task1 = Carbide::Task.new(manager, :task_name1)
     manager.register(task1)
     action1 = Carbide::Action.new(context) do
-      self.value << 42
+      self.value << :pre
     end
     task1.enhance(action1)
-
     task.prepend(task1)
-    task.invoke_pre_tasks
-    assert_equal [42, 43], context.value
-  end
 
-  def test_invoke_post_tasks
-    manager = Carbide::Manager.new
-    context = TestContext.new([])
-
-    task = Carbide::Task.new(manager, :task_name)
-    manager.register(task)
-    action = Carbide::Action.new(context) do
-      self.value << 43
+    task2 = Carbide::Task.new(manager, :task_name2)
+    manager.register(task2)
+    action2 = Carbide::Action.new(context) do
+      self.value << :post
     end
+    task2.enhance(action2)
+    task.append(task2)
 
-    task1 = Carbide::Task.new(manager, :task_name1)
-    manager.register(task1)
-    action1 = Carbide::Action.new(context) do
-      self.value << 42
-    end
-    task1.enhance(action1)
-
-    task.append(task1)
-    task.invoke_post_tasks
-    assert_equal [43, 42], context.value
+    task.invoke
+    assert_equal [:pre, :main, :post], context.value
   end
 end
