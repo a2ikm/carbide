@@ -22,7 +22,7 @@ Or install it yourself as:
 
 ```ruby
 class SomeService
-  carbide
+  include Carbide::DSL
 
   def initialize
     task :hello do
