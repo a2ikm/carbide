@@ -8,7 +8,9 @@ module Carbide
     end
 
     def execute(*args)
-      context.instance_exec(*args, &block)
+      catch(:break) do
+        context.instance_exec(*args, &block)
+      end
     end
   end
 end

@@ -50,4 +50,17 @@ class CarbideActionTest < Minitest::Test
 
     assert_equal 43, var
   end
+
+  def test_throwing_break_stops_executing_block
+    context = TestContext.new
+    context.value = 42
+
+    action = Carbide::Action.new(context) do
+      throw :break
+      self.value = 43
+    end
+    action.execute
+
+    assert_equal 42, context.value
+  end
 end
