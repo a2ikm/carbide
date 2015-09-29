@@ -93,7 +93,7 @@ class CarbideTaskTest < Minitest::Test
     task2 = Carbide::Task.new(:task_name2)
 
     task.prepend([task1, task2])
-    assert_equal [task1, task2], task.pre_tasks
+    assert_equal [:task_name1, :task_name2], task.pre_tasks
   end
 
   def test_prepend_dont_add_duplicated_pre_tasks
@@ -103,6 +103,6 @@ class CarbideTaskTest < Minitest::Test
 
     task.prepend(task1)
     task.prepend([task2, task1])
-    assert_equal [task1, task2], task.pre_tasks
+    assert_equal [:task_name1, :task_name2], task.pre_tasks
   end
 end

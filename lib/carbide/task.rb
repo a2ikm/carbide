@@ -21,7 +21,7 @@ module Carbide
     end
 
     def prepend(tasks)
-      @pre_tasks |= Array(tasks)
+      @pre_tasks |= Array(tasks).map(&:name)
       self
     end
 
