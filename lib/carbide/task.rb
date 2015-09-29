@@ -1,8 +1,9 @@
 module Carbide
   class Task
-    attr_reader :name, :actions, :pre_tasks
+    attr_reader :manager, :name, :actions, :pre_tasks
 
-    def initialize(name)
+    def initialize(manager, name)
+      @manager   = manager
       @name      = name.to_sym
       @actions   = []
       @pre_tasks = []

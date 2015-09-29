@@ -2,24 +2,28 @@ require "test_helper"
 
 class CarbideTaskTest < Minitest::Test
   def test_name_is_symbol
-    task = Carbide::Task.new("task_name")
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, "task_name")
     assert_equal :task_name, task.name
   end
 
   def test_tasks_with_same_name_are_equal
-    task_a = Carbide::Task.new(:task_name)
-    task_b = Carbide::Task.new(:task_name)
+    manager = Carbide::Manager.new
+    task_a = Carbide::Task.new(manager, :task_name)
+    task_b = Carbide::Task.new(manager, :task_name)
     assert task_a == task_b
   end
 
   def test_tasks_with_different_names_are_not_equal
-    task_a = Carbide::Task.new(:task_name)
-    task_b = Carbide::Task.new(:other_task_name)
+    manager = Carbide::Manager.new
+    task_a = Carbide::Task.new(manager, :task_name)
+    task_b = Carbide::Task.new(manager, :other_task_name)
     assert task_a != task_b
   end
 
   def test_enhance_adds_action_to_actions
-    task = Carbide::Task.new(:task_name)
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
     context = TestContext.new
 
     action = Carbide::Action.new(context) do
@@ -31,7 +35,8 @@ class CarbideTaskTest < Minitest::Test
   end
 
   def test_execute_calls_execute_on_each_action
-    task = Carbide::Task.new(:task_name)
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
     context = TestContext.new([])
 
     action1 = Carbide::Action.new(context) do
@@ -50,7 +55,8 @@ class CarbideTaskTest < Minitest::Test
   end
 
   def test_execute_passes_args_to_each_action
-    task = Carbide::Task.new(:task_name)
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
     context = TestContext.new([])
 
     action1 = Carbide::Action.new(context) do |arg|
@@ -69,7 +75,8 @@ class CarbideTaskTest < Minitest::Test
   end
 
   def test_clear_actions
-    task = Carbide::Task.new(:task_name)
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
     context = TestContext.new([])
 
     action1 = Carbide::Action.new(context) do |arg|
@@ -88,18 +95,20 @@ class CarbideTaskTest < Minitest::Test
   end
 
   def test_prepend_adds_pre_tasks
-    task = Carbide::Task.new(:task_name)
-    task1 = Carbide::Task.new(:task_name1)
-    task2 = Carbide::Task.new(:task_name2)
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
+    task1 = Carbide::Task.new(manager, :task_name1)
+    task2 = Carbide::Task.new(manager, :task_name2)
 
     task.prepend([task1, task2])
     assert_equal [:task_name1, :task_name2], task.pre_tasks
   end
 
   def test_prepend_dont_add_duplicated_pre_tasks
-    task = Carbide::Task.new(:task_name)
-    task1 = Carbide::Task.new(:task_name1)
-    task2 = Carbide::Task.new(:task_name2)
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
+    task1 = Carbide::Task.new(manager, :task_name1)
+    task2 = Carbide::Task.new(manager, :task_name2)
 
     task.prepend(task1)
     task.prepend([task2, task1])
