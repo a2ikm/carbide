@@ -19,20 +19,7 @@ module Carbide
 
     def task(name, &block)
       verify_carbide_manager_available
-
-      name = name.to_sym
-      task = carbide_manager[name]
-      if task.nil?
-        task = Task.new(name)
-        carbide_manager.register(task)
-      end
-
-      if block_given?
-        action = Action.new(self, &block)
-        task.enhance(action)
-      end
-
-      task
+      Builder.new(carbide_manager).build_task(name, self, &block)
     end
 
     private
