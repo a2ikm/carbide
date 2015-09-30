@@ -20,6 +20,8 @@ Or install it yourself as:
 
 ## Usage
 
+### Simple
+
 ```ruby
 class SomeService
   include Carbide::DSL
@@ -51,6 +53,27 @@ end
 SomeService.new.hello_world
 #=> Hello
     World
+```
+
+### Before and After Hooks
+
+```ruby
+task :core do
+  puts "Processing core task"
+end
+
+before_task :core, :setup do
+  puts "Processing setup"
+end
+
+after_task :core, :teardown do
+  puts "Processing teardown"
+end
+
+invoke :core
+#=> Processing setup
+    Processing core task
+    Processing teardown
 ```
 
 ## Development
