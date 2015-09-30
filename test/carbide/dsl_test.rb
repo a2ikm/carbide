@@ -96,4 +96,38 @@ class CarbideDSLTest < Minitest::Test
     carbided.run
     assert_equal 42, carbided.value
   end
+
+  def test_before_task_defines_pre_task
+    carbided = Class.new(TestCarbided) do
+      def define_tasks
+        task :task1 do
+          self.value << :task1_value
+        end
+        before_task :task1, :task2 do
+          self.value << :task2_value
+        end
+      end
+    end.new([])
+
+    task1 = carbided.carbide_manager[:task1]
+    task1.invoke
+    assert_equal [:task2_value, :task1_value], carbided.value
+  end
+
+  def test_after_task_defines_post_task
+    carbided = Class.new(TestCarbided) do
+      def define_tasks
+        task :task1 do
+          self.value << :task1_value
+        end
+        after_task :task1, :task2 do
+          self.value << :task2_value
+        end
+      end
+    end.new([])
+
+    task1 = carbided.carbide_manager[:task1]
+    task1.invoke
+    assert_equal [:task1_value, :task2_value], carbided.value
+  end
 end

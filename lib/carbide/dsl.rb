@@ -22,6 +22,16 @@ module Carbide
       Builder.new(carbide_manager).build_task(name, self, &block)
     end
 
+    def before_task(name, pre_name, &block)
+      verify_carbide_manager_available
+      Builder.new(carbide_manager).build_pre_task(name, pre_name, self, &block)
+    end
+
+    def after_task(name, post_name, &block)
+      verify_carbide_manager_available
+      Builder.new(carbide_manager).build_post_task(name, post_name, self, &block)
+    end
+
     private
 
     def verify_carbide_manager_available
