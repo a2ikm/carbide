@@ -79,6 +79,31 @@ invoke :core
     Processing teardown
 ```
 
+### Breaking execution
+
+You can break task execution by throwing `:berak`, not `return`.
+
+```ruby
+task :some_task do
+  throw :break
+  puts "Hello"      # not printed
+end
+```
+
+You can define multi blocks into one task, but `:break` breaks just the block
+from which it was thrown. Other blocks don't break.
+
+```ruby
+task :some_task do
+  throw :break
+  puts "Hello"      # not printed
+end
+
+task :some_task do
+  puts "Bye"        # printed
+end
+```
+
 ### Options
 
 #### :manager option
