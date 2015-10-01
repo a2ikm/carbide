@@ -66,5 +66,22 @@ module Carbide
       actions.clear
       self
     end
+
+    def clear_pre_tasks
+      pre_tasks.clear
+      self
+    end
+
+    def clear_post_tasks
+      post_tasks.clear
+      self
+    end
+
+    def clear
+      clear_actions
+      clear_pre_tasks
+      clear_post_tasks
+      self
+    end
   end
 end

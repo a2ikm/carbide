@@ -94,6 +94,28 @@ class CarbideTaskTest < Minitest::Test
     assert_equal [], task.actions
   end
 
+  def test_clear_pre_tasks
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
+    pre_task = Carbide::Task.new(manager, :pre_task_name)
+    task.prepend(pre_task)
+
+    task.clear_pre_tasks
+
+    assert_equal [], task.pre_tasks
+  end
+
+  def test_clear_post_tasks
+    manager = Carbide::Manager.new
+    task = Carbide::Task.new(manager, :task_name)
+    post_task = Carbide::Task.new(manager, :post_task_name)
+    task.append(post_task)
+
+    task.clear_post_tasks
+
+    assert_equal [], task.post_tasks
+  end
+
   def test_prepend_adds_pre_tasks
     manager = Carbide::Manager.new
     task = Carbide::Task.new(manager, :task_name)
