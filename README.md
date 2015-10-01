@@ -1,5 +1,7 @@
 # Carbide
 
+[![Build Status](https://travis-ci.org/a2ikm/carbide.svg)](https://travis-ci.org/a2ikm/carbide)
+
 Carbide is a runtime framework like Rake.
 
 ## Installation
