@@ -24,7 +24,8 @@ Or install it yourself as:
 
 ```ruby
 class SomeService
-  include Carbide::DSL
+  include Carbide
+  carbide
 
   def initialize
     task :hello do
@@ -62,11 +63,11 @@ task :core do
   puts "Processing core task"
 end
 
-before_task :core, :setup do
+before :core, :setup do
   puts "Processing setup"
 end
 
-after_task :core, :teardown do
+after :core, :teardown do
   puts "Processing teardown"
 end
 
@@ -74,6 +75,57 @@ invoke :core
 #=> Processing setup
     Processing core task
     Processing teardown
+```
+
+### Options
+
+#### :manager option
+
+You can specify `Carbide::Manager`'s name with `:manager` option like:
+
+```ruby
+class SomeClass
+  include Carbide
+  carbide manager: :fantastic_manager
+
+  def fantastic_manager
+    @manager ||= Carbide::Manager
+  end
+end
+```
+
+You can use an instance variable like:
+
+```ruby
+class SomeClass
+  include Carbide
+  carbide manager: :@carbide_manager
+
+  def initialize
+    @carbide_manager = Carbide::Manager.new
+  end
+end
+```
+
+#### :prefix option
+
+You can specify DSL methods' prefix with `:prefix` option like:
+
+```ruby
+class SomeClass
+  include Carbide
+  carbide prefix: :foo
+
+  def define_tasks
+    foo_task :my_task1
+    foo_before :my_task1, :my_task2
+    foo_after :my_task1, :my_task3
+  end
+
+  def carbide_manager
+    @carbide_manager ||= Carbide::Manager.new
+  end
+end
 ```
 
 ## Development
